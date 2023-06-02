@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title id="title1">Community Alert System</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="script.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="logo2.png" alt="Community Alert System Logo">
+      <h1 class="log-title">SAFE CITY</h1>
+    </div>
+    <nav>
+      <ul style="font-family:verdana;"> 
+        <li><a href="#" class="buttonz" id="home-link"><span>Home</span></a></li>
+        <li><a href="#" class="buttonz" id="report-link"><span>Report Incident</span></a></li>
+        <li><a href="#" class="buttonz" id="alerts-link"><span>Alerts</span></a></li>
+        <li><a href="#" class="buttonz" id="engagement-link"><span>Community Engagement</span></a></li>
+        <li><a href="#" class="buttonz" id="login-link"><span>Login</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="content">
+    <div id="home-section">
+      <h3 style="font-family:verdana;">Welcome to the Community Alert System</h2>
+      <!-- <p>Stay informed and keep your community safe.</p> -->
+      <div id="map" style="height:500px">
+        <script>
+            let mapOptions={
+                center:[17.385044,78.486671],
+                zoom:10
+            }
+            let map=new L.map('map',mapOptions);
+            let layer=new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+            map.addLayer(layer);
+            let marker=L.marker([17.385044,78.486671]);
+            marker.addTo(map);
+        </script>
+        </div>
+    </div>
+
+    <div id="report-section">
+      <h2>Report Incident</h2>
+      <form id="incident-form">
+        <div>
+          <label for="incident-type">Incident Type:</label>
+          <input type="text" id="incident-type" required>
+        </div>
+        <div>
+          <label for="incident-location">Location:</label>
+          <input type="text" id="incident-location" required>
+        </div>
+        <div>
+          <label for="incident-description">Description:</label>
+          <textarea id="incident-description" required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div> 
+
+    <div id="alerts-section">
+      <h2>Alerts</h2>
+      <ul id="alerts-list"></ul>
+    </div>
+
+    <div id="engagement-section">
+      <h2>Community Engagement</h2>
+      <p>Get involved and contribute to the safety of your community.</p>
+    </div>
+
+    <div id="login-section">
+      <h2>Login</h2>
+      <p>Please login to access the community alert system.</p>
+    </div>
+
+  </div> 
+
+  <footer>
+    &copy; 2023 Community Alert System. All rights reserved.
+  </footer>
+</body>
+
+</html>
