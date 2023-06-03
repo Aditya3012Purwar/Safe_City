@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title id="title1">Community Alert System</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Montserrat&family=Sacramento&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <script src="script.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="logo2.png" alt="Community Alert System Logo">
+      <h1 class="log-title">SAFE CITY</h1>
+    </div>
+    <nav>
+      <ul style="font-family:verdana;"> 
+        <li><a href="#" class="buttonz" id="home-link"><span>Home</span></a></li>
+        <li><a href="#" class="buttonz" id="report-link"><span>Report Incident</span></a></li>
+        <li><a href="#" class="buttonz" id="alerts-link"><span>Alerts</span></a></li>
+        <li><a href="#" class="buttonz" id="engagement-link"><span>Community Engagement</span></a></li>
+        <li><a href="#" class="buttonz" id="login-link"><span>Login</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="content">
+    <div id="home-section">
+      <h3 style="font-family:verdana;">Welcome to the Community Alert System</h3>
+      <div id="map" style="height:500px">
+        <script>
+          let mapOptions={
+              center:[12.96992,79.1559],
+              zoom:10
+          }
+          let map=new L.map('map',mapOptions);
+          let layer=new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+          map.addLayer(layer);
+          let marker=L.marker([12.9487,79.3190]);
+          let marker1=L.marker([12.96992,79.1559]);
+          let marker2=L.marker([13.0827,80.2707]);
+          let marker3=L.marker([12.8185,79.6947]);
+          let marker4=L.marker([17.385044,78.486671]);
+
+          marker.addTo(map);
+          marker1.addTo(map);
+          marker2.addTo(map);
+          marker3.addTo(map);
+          marker4.addTo(map);
+      </script>
+      </div>
+    </div>
+
+    <div id="report-section">
+      <h2>Report Incident</h2>
+      <form id="incident-form">
+        <div>
+          <label for="incident-type">Incident Type:</label>
+          <input type="text" id="incident-type" required>
+        </div>
+        <div>
+          <label for="incident-location">Location:</label>
+          <input type="text" id="incident-location" required>
+        </div>
+        <div>
+          <label for="incident-description">Description:</label>
+          <textarea id="incident-description" required></textarea>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+
+      <br>
+      <br>
+      <br>
+
+      
+    </div>
+
+    <div id="alerts-section">
+      <h2>Alerts</h2>
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th>Incident Type</th>
+            <th>Incident Location</th>
+            <th>Incident Description</th>
+          </tr>
+        </thead>
+        <tbody id="data-body"></tbody>
+      </table>
+      </div>
+
+    <div id="engagement-section">
+      <h2>Community Engagement</h2>
+      <p>Get involved and contribute to the safety of your community.</p>
+    </div>
+
+    <div id="login-section">
+      <h2>Login</h2>
+      <p>Please login to access the community alert system.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2023 Community Alert System. All rights reserved.
+  </footer>
+</body>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAXRQdG0xFkdQzQVFCkPx_N80D4lV2yON8",
+    authDomain: "incidentreport-9dfb0.firebaseapp.com",
+    projectId: "incidentreport-9dfb0",
+    storageBucket: "incidentreport-9dfb0.appspot.com",
+    messagingSenderId: "431823637095",
+    appId: "1:431823637095:web:504746a5650f59ebf0e2c2",
+    measurementId: "G-HG9847ER4W"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  
+  // Create a listener for the report incident form
+  document.getElementById('incident-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+  
+    // Get the data from the form
+    const incidentType = document.getElementById('incident-type').value;
+    const incidentLocation = document.getElementById('incident-location').value;
+    const incidentDescription = document.getElementById('incident-description').value;
+  
+    // Push the data to the database
+    console.log("before push");
+    db.collection('Incidentdata').add({
+      incidentType: incidentType,
+      incidentLocation: incidentLocation,
+      incidentDescription: incidentDescription
+    })
+    .then(function(docRef) {
+      console.log('Document written with ID: ', docRef.id);
+    })
+    .catch(function(error) {
+      console.error('Error adding document: ', error);
+    });
+  
+    // Reset the form after submitting the report
+    document.getElementById('incident-form').reset();
+  });
+
+       // Retrieve data from Firestore
+  var dataTable = document.getElementById("data-body");
+
+  db.collection("Incidentdata")
+  .get()
+  .then(function(querySnapshot) {
+  querySnapshot.forEach(function(doc) {
+  var data = doc.data();
+  var row = dataTable.insertRow(-1);
+ 
+  var field1 = row.insertCell(0);
+  field1.textContent = data.incidentType;
+  var field2 = row.insertCell(1);
+  field2.textContent = data.incidentLocation;
+  var field3 = row.insertCell(2);
+  field3.textContent = data.incidentDescription;
+  });
+  })
+  .catch(function(error) {
+  console.log("Error getting documents: ", error);
+  });
+  
+</script>
+</html>
